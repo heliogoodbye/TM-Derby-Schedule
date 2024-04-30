@@ -256,6 +256,6 @@ add_shortcode( 'tm_derby_schedule', 'tm_derby_schedule_shortcode' );
 
 // Enqueue plugin styles
 function tm_derby_schedule_enqueue_styles() {
-    wp_enqueue_style( 'tm-derby-schedule-style', plugins_url( 'tm-derby-schedule-style.css', __FILE__ ) );
+    wp_enqueue_style( 'tm-derby-schedule-style', plugins_url( 'css/tm-derby-schedule-style.css', __FILE__ ) );
 }
 add_action( 'wp_enqueue_scripts', 'tm_derby_schedule_enqueue_styles' );
