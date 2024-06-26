@@ -3,7 +3,7 @@
 Plugin Name: TM Derby Schedule
 Description: Displays a schedule of roller derby games.
 Plugin URI: https://thinmint333.com/wp-plugins/tm-derby-schedule/
-Version: 1.7
+Version: 1.8
 Author: Thin Mint
 Author URI: https://thinmint333.com/
 License: GPL-3.0+
