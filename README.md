@@ -1,5 +1,7 @@
 # TM Derby Schedule
 
+![tmderbyschedule](https://github.com/heliogoodbye/TM-Derby-Schedule/assets/105381685/119f1c71-a0fe-4fee-8d72-e7389f9ccb88)
+
 The **TM Derby Schedule** plugin for WordPress is a tool designed to display schedules of roller derby games on websites. It provides a user-friendly interface for WordPress users to input and manage information about upcoming roller derby events.
 
 Key features of the plugin include:
