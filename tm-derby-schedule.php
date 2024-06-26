@@ -6,7 +6,7 @@ Plugin URI: https://thinmint333.com/wp-plugins/tm-derby-schedule/
 Version: 1.7
 Author: Thin Mint
 Author URI: https://thinmint333.com/
-License: GPL-3.0
+License: GPL-3.0+
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
@@ -256,6 +256,6 @@ add_shortcode( 'tm_derby_schedule', 'tm_derby_schedule_shortcode' );
 
 // Enqueue plugin styles
 function tm_derby_schedule_enqueue_styles() {
-    wp_enqueue_style( 'tm-derby-schedule-style', plugins_url( 'css/tm-derby-schedule-style.css', __FILE__ ) );
+    wp_enqueue_style( 'tm-derby-schedule-style', plugins_url( 'tm-derby-schedule-style.css', __FILE__ ) );
 }
 add_action( 'wp_enqueue_scripts', 'tm_derby_schedule_enqueue_styles' );
