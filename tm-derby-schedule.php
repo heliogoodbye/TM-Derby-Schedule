@@ -3,7 +3,7 @@
 Plugin Name: TM Derby Schedule
 Description: Displays a schedule of roller derby games.
 Plugin URI: https://thinmint333.com/wp-plugins/tm-derby-schedule/
-Version: 1.8
+Version: 1.9
 Author: Thin Mint
 Author URI: https://thinmint333.com/
 License: GPL-3.0+
@@ -166,10 +166,10 @@ function tm_derby_schedule_save_custom_fields( $post_id ) {
 add_action( 'save_post', 'tm_derby_schedule_save_custom_fields' );
 
 // Shortcode to display the schedule
-// Shortcode to display the schedule
 function tm_derby_schedule_shortcode( $atts ) {
     $atts = shortcode_atts( array(
         'num_games' => 5,
+        'view' => 'full', // Default view is 'full', can be changed to 'reduced'
     ), $atts );
 
     $current_datetime = current_time( 'timestamp' ); // Get the current date and time as timestamp
@@ -195,55 +195,64 @@ function tm_derby_schedule_shortcode( $atts ) {
     ob_start();
     if ( $derby_games->have_posts() ) {
         echo '<div class="tm-derby-schedule">';
-        $game_count = 0; // Initialize game count
         while ( $derby_games->have_posts() ) {
             $derby_games->the_post();
-            $game_count++; // Increment game count
             $date = get_post_meta( get_the_ID(), 'derby_date', true );
             $date_formatted = date( 'M j', strtotime( $date ) ); // Format date as "Jun 5"
-            $time = get_post_meta( get_the_ID(), 'derby_time', true );
-            $time_formatted = date( 'g:i A', strtotime( $time ) ); // Format time as "1:00 PM"
             $game_name = get_post_meta( get_the_ID(), 'derby_game_name', true );
-            $g1_team_1 = get_post_meta( get_the_ID(), 'derby_g1_team_1', true );
-            $g1_team_2 = get_post_meta( get_the_ID(), 'derby_g1_team_2', true );
-            $g2_team_1 = get_post_meta( get_the_ID(), 'derby_g2_team_1', true );
-            $g2_team_2 = get_post_meta( get_the_ID(), 'derby_g2_team_2', true );
-            $g3_team_1 = get_post_meta( get_the_ID(), 'derby_g3_team_1', true );
-            $g3_team_2 = get_post_meta( get_the_ID(), 'derby_g3_team_2', true );
             $venue = get_post_meta( get_the_ID(), 'derby_venue', true );
             $location = get_post_meta( get_the_ID(), 'derby_location', true );
-            $tickets = get_post_meta( get_the_ID(), 'derby_tickets', true ); // Get ticket link
-            $fbevent = get_post_meta( get_the_ID(), 'derby_fbevent', true ); // Get Facebook event link
 
-            echo '<div class="tm-derby-game">';
-            echo '<div class="tm-derby-game-cell-1">';
-            echo '<h1>' . $date_formatted . '</h1>';
-            echo '<h2>' . $time_formatted . '</h2>';
-            echo '</div><div class="tm-derby-game-cell-2">'; 
-            // Display game name if not empty
-            if ( ! empty( $game_name ) ) {
-                echo '<h3>' . $game_name . '</h3>';
+            if ($atts['view'] == 'reduced') {
+                echo '<div class="tm-derby-game-reduced">';
+                echo '<h1>' . $date_formatted . '</h1>';
+                echo '<h2>' . $game_name . '</h2>';
+                echo '<p>' . $venue . ' | ' . $location . '</p>';
+                echo '</div>';
+            } else {
+                $time = get_post_meta( get_the_ID(), 'derby_time', true );
+                $time_formatted = date( 'g:i A', strtotime( $time ) ); // Format time as "1:00 PM"
+                $g1_team_1 = get_post_meta( get_the_ID(), 'derby_g1_team_1', true );
+                $g1_team_2 = get_post_meta( get_the_ID(), 'derby_g1_team_2', true );
+                $g2_team_1 = get_post_meta( get_the_ID(), 'derby_g2_team_1', true );
+                $g2_team_2 = get_post_meta( get_the_ID(), 'derby_g2_team_2', true );
+                $g3_team_1 = get_post_meta( get_the_ID(), 'derby_g3_team_1', true );
+                $g3_team_2 = get_post_meta( get_the_ID(), 'derby_g3_team_2', true );
+                $tickets = get_post_meta( get_the_ID(), 'derby_tickets', true ); // Get ticket link
+                $fbevent = get_post_meta( get_the_ID(), 'derby_fbevent', true ); // Get Facebook event link
+
+                echo '<div class="tm-derby-game">';
+                echo '<div class="tm-derby-game-cell-1">';
+                echo '<h1>' . $date_formatted . '</h1>';
+                echo '<h2>' . $time_formatted . '</h2>';
+                echo '</div><div class="tm-derby-game-cell-2">';
+                // Display game name if not empty
+                if ( ! empty( $game_name ) ) {
+                    echo '<h3>' . $game_name . '</h3>';
+                }
+                if ( ! empty( $g1_team_1 ) ) {
+                    echo '<p><strong> ' . $g1_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g1_team_2 . '</strong> </p>';
+                }
+                // Display game 2 if not empty
+                if ( ! empty( $g2_team_1 ) ) {
+                    echo '<p><strong> ' . $g2_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g2_team_2 . '</strong> </p>';
+                }
+                // Display game 3 if not empty
+                if ( ! empty( $g3_team_1 ) ) {
+                    echo '<p><strong> ' . $g3_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g3_team_2 . '</strong> </p>';
+                }
+                echo '<p>' . $venue . ' | ' . $location . '</p>';
+                // Display ticket link if not empty
+                if ( ! empty( $tickets ) ) {
+                    echo '<p style="padding-top:10px;"><strong><a href="' . esc_url( $tickets ) . '">Buy Tickets!</a></strong>';
+                }
+                // Display Facebook event link if not empty
+                if ( ! empty( $fbevent ) ) {
+                    echo '&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="' . esc_url( $fbevent ) . '"><span class="dashicons dashicons-facebook"></span></a></strong></p>';
+                }
+                echo '</div>';
+                echo '</div>';
             }
-            echo '<p><strong> ' . $g1_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g1_team_2 . '</strong> </p>';
-            // Display game 2 if not empty
-            if ( ! empty( $g2_team_1 ) ) {
-                echo '<p><strong> ' . $g2_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g2_team_2 . '</strong> </p>';
-            }
-            // Display game 3 if not empty
-            if ( ! empty( $g3_team_1 ) ) {
-                echo '<p><strong> ' . $g3_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g3_team_2 . '</strong> </p>';
-            }
-            echo '<p>' . $venue . ' | ' . $location . '</p>';
-            // Display ticket link if not empty
-            if ( ! empty( $tickets ) ) {
-                echo '<p style="padding-top:10px;"><strong><a href="' . esc_url( $tickets ) . '">Buy Tickets!</a></strong>';
-            }
-            // Display ticket link if not empty
-            if ( ! empty( $fbevent ) ) {       
-                 echo '&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="' . esc_url( $fbevent ) . '"><span class="dashicons dashicons-facebook"></strong></span></a></p>';
-            }
-            echo '</div>';
-            echo '</div>';
         }
         echo '</div>';
         wp_reset_postdata();
