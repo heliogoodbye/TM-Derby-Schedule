@@ -10,7 +10,7 @@ Key features of the plugin include:
 
 - **Game Details Management**: Users can input various details for each roller derby game, such as date, time, game name, participating teams, venue name, location, ticket link, and Facebook event link.
 
-- **Shortcode Integration**: The plugin integrates a shortcode `[tm_derby_schedule]` that enables users to embed the roller derby schedule on any post or page within their WordPress site.
+- **Shortcode Integration**: The plugin integrates a shortcode `[tm_derby_schedule]` that enables users to embed the roller derby schedule on any post or page within their WordPress site. Supports attributes such as the number of games to display (num_games) and the view type (view), which can be 'full' or 'reduced'. The reduced view only shows the date, name, venue, and the location of the event.
 
 - **Custom Fields**: Custom fields are provided for inputting specific game details, ensuring flexibility and customization options for users.
 
@@ -40,7 +40,7 @@ Overall, the "TM Derby Schedule" plugin streamlines the process of managing and 
 3. **Displaying the Schedule**:
    - To display the roller derby schedule on your WordPress site, you can use the provided shortcode `[tm_derby_schedule]`.
    - Create a new post or page where you want to display the schedule.
-   - Insert the shortcode `[tm_derby_schedule]` into the content area of the post or page. You can add the `count` attribute to control how many games are displayed (example: `[tm_derby_schedule count="1"`]
+   - Insert the shortcode `[tm_derby_schedule]` into the content area of the post or page. You can add the `num_games` attribute to control how many games are displayed. You can also specify a reduced entry using the `view` attribute. (example: `[tm_derby_schedule num_games="1" view="reduced"]`)
    - Update or publish the post/page.
 
 4. **Customization**:
