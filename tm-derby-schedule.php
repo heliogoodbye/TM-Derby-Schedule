@@ -168,7 +168,7 @@ add_action( 'save_post', 'tm_derby_schedule_save_custom_fields' );
 // Shortcode to display the schedule
 function tm_derby_schedule_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'num_games' => 5,
+        'count' => -1,
         'view' => 'full', // Default view is 'full', can be changed to 'reduced'
     ), $atts );
 
@@ -176,7 +176,7 @@ function tm_derby_schedule_shortcode( $atts ) {
 
     $args = array(
         'post_type'      => 'derby-game',
-        'posts_per_page' => $atts['num_games'],
+        'posts_per_page' => $atts['count'],
         'order'          => 'ASC',
         'meta_key'       => 'derby_date', // Order by derby date
         'orderby'        => 'meta_value', // Order by meta value
