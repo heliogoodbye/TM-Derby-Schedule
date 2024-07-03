@@ -40,7 +40,7 @@ Overall, the "TM Derby Schedule" plugin streamlines the process of managing and 
 3. **Displaying the Schedule**:
    - To display the roller derby schedule on your WordPress site, you can use the provided shortcode `[tm_derby_schedule]`.
    - Create a new post or page where you want to display the schedule.
-   - Insert the shortcode `[tm_derby_schedule]` into the content area of the post or page. You can add the `num_games` attribute to control how many games are displayed. You can also specify a reduced entry using the `view` attribute. (example: `[tm_derby_schedule num_games="1" view="reduced"]`)
+   - Insert the shortcode `[tm_derby_schedule]` into the content area of the post or page. You can add the `count` attribute to control how many games are displayed. You can also specify a reduced entry using the `view` attribute. (example: `[tm_derby_schedule count="1" view="reduced"]`)
    - Update or publish the post/page.
 
 4. **Customization**:
