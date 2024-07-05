@@ -25,11 +25,11 @@ Overall, the "TM Derby Schedule" plugin streamlines the process of managing and 
 # How to use TM Derby Schedule
 
 1. **Installation**:
-   - Log in to your WordPress admin dashboard.
-   - Navigate to the "Plugins" section.
-   - Click on "Add New".
-   - Search for "TM Derby Schedule".
-   - Click on "Install Now" and then activate the plugin.
+    - Download the plugin zip file.
+    - Go to your WordPress dashboard.
+    - Navigate to `"Plugins" > "Add New"`.
+    - Click on the "Upload Plugin" button and select the downloaded zip file.
+    - Activate the plugin.
 
 2. **Adding Roller Derby Games**:
    - After activation, you'll find a new menu item labeled "TM Derby Schedule" in the WordPress admin sidebar.
