@@ -118,6 +118,7 @@ function tm_derby_schedule_render_custom_fields( $post ) {
     <label for="derby_g3_team_2">Team 2:</label>
     <input type="text" id="derby_g3_team_2" name="derby_g3_team_2" value="<?php echo esc_attr( $g3_team_2 ); ?>"><br><br>
 
+    <p>Icons by <a href="https://fontawesome.com" target="_blank">Font Awesome</a></p>
     <?php
 }
 
@@ -202,13 +203,19 @@ function tm_derby_schedule_shortcode( $atts ) {
             $game_name = get_post_meta( get_the_ID(), 'derby_game_name', true );
             $venue = get_post_meta( get_the_ID(), 'derby_venue', true );
             $location = get_post_meta( get_the_ID(), 'derby_location', true );
+			$tickets = get_post_meta( get_the_ID(), 'derby_tickets', true ); // Get ticket link
+            $fbevent = get_post_meta( get_the_ID(), 'derby_fbevent', true ); // Get Facebook event link
 
             if ($atts['view'] == 'reduced') {
                 echo '<div class="tm-derby-game-reduced">';
-                echo '<h1>' . $date_formatted . '</h1>';
-                echo '<h2>' . $game_name . '</h2>';
-                echo '<p>' . $venue . ' | ' . $location . '</p>';
-                echo '</div>';
+                echo '<h1>' . $date_formatted . ' — ' . $game_name . '</h1>';
+                echo '<p>' . $venue . '&nbsp;&nbsp;|&nbsp;&nbsp;' . $location . '';
+				 // Display ticket link if not empty
+                if ( ! empty( $tickets ) ) {
+                    echo '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' . esc_url( $tickets ) . '">Buy Tickets!</a></strong>';
+                }
+				echo '</p>';
+				echo '</div>';
             } else {
                 $time = get_post_meta( get_the_ID(), 'derby_time', true );
                 $time_formatted = date( 'g:i A', strtotime( $time ) ); // Format time as "1:00 PM"
@@ -218,8 +225,6 @@ function tm_derby_schedule_shortcode( $atts ) {
                 $g2_team_2 = get_post_meta( get_the_ID(), 'derby_g2_team_2', true );
                 $g3_team_1 = get_post_meta( get_the_ID(), 'derby_g3_team_1', true );
                 $g3_team_2 = get_post_meta( get_the_ID(), 'derby_g3_team_2', true );
-                $tickets = get_post_meta( get_the_ID(), 'derby_tickets', true ); // Get ticket link
-                $fbevent = get_post_meta( get_the_ID(), 'derby_fbevent', true ); // Get Facebook event link
 
                 echo '<div class="tm-derby-game">';
                 echo '<div class="tm-derby-game-cell-1">';
@@ -268,3 +273,8 @@ function tm_derby_schedule_enqueue_styles() {
     wp_enqueue_style( 'tm-derby-schedule-style', plugins_url( 'tm-derby-schedule-style.css', __FILE__ ) );
 }
 add_action( 'wp_enqueue_scripts', 'tm_derby_schedule_enqueue_styles' );
+
+function tm_derby_schedule_enqueue_font_awesome() {
+    wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+}
+add_action('wp_enqueue_scripts', 'tm_derby_schedule_enqueue_font_awesome');
