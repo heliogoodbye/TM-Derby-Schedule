@@ -18,9 +18,10 @@ Key features of the plugin include:
 
 - **Styling Options**: Plugin styles are included to enhance the visual presentation of the derby schedule, ensuring consistency with the overall look and feel of the WordPress site.
 
+- **Font Awesome Integration**: This plugin makes use of the Font Awesome Free icon set. Font Awesome Free is licensed under the SIL Open Font License 1.1, MIT License, and Creative Commons Attribution 4.0 International. This version can be used for personal and commercial projects.
+
 Overall, the "TM Derby Schedule" plugin streamlines the process of managing and presenting roller derby game schedules on WordPress websites, catering to the needs of roller derby enthusiasts, teams, and organizations.
 
-- **Font Awesome Integration**: This plugin makes use of the Font Awesome Free icon set. Font Awesome Free is licensed under the SIL Open Font License 1.1, MIT License, and Creative Commons Attribution 4.0 International. This version can be used for personal and commercial projects.
 ---
 
 # How to use TM Derby Schedule
