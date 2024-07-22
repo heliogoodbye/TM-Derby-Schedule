@@ -50,6 +50,10 @@
 	padding: 0px;
 	}
 
+.tm-derby-schedule a {
+	text-decoration: none;
+}
+
 .tm-derby-game.past-game {
 	opacity: 0.6;
 }
