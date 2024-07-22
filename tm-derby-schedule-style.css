@@ -50,4 +50,10 @@
 	padding: 0px;
 	}
 
+.tm-derby-game.past-game {
+    opacity: 0.6;
+}
+
+.tm-derby-game-reduced {margin: 0px; padding:0px;}
+
 /* You can add more styles as needed */
