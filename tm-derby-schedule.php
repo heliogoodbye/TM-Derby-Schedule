@@ -169,8 +169,9 @@ add_action( 'save_post', 'tm_derby_schedule_save_custom_fields' );
 // Shortcode to display the schedule
 function tm_derby_schedule_shortcode( $atts ) {
     $atts = shortcode_atts( array(
-        'count' => -1,
-        'view' => 'full', // Default view is 'full', can be changed to 'reduced'
+        'count'      => -1,
+        'view'       => 'full', // Default view is 'full'
+        'show_past'  => 'false', // Default to 'false'
     ), $atts );
 
     $current_datetime = current_time( 'timestamp' ); // Get the current date and time as timestamp
@@ -186,7 +187,7 @@ function tm_derby_schedule_shortcode( $atts ) {
             'date_clause' => array(
                 'key'     => 'derby_date',
                 'value'   => date( 'Y-m-d', $current_datetime ), // Get the current date in 'YYYY-MM-DD' format
-                'compare' => '>=',
+                'compare' => $atts['show_past'] === 'true' ? '!=' : '>=',
             ),
         ),
     );
@@ -203,19 +204,17 @@ function tm_derby_schedule_shortcode( $atts ) {
             $game_name = get_post_meta( get_the_ID(), 'derby_game_name', true );
             $venue = get_post_meta( get_the_ID(), 'derby_venue', true );
             $location = get_post_meta( get_the_ID(), 'derby_location', true );
-			$tickets = get_post_meta( get_the_ID(), 'derby_tickets', true ); // Get ticket link
+            $tickets = get_post_meta( get_the_ID(), 'derby_tickets', true ); // Get ticket link
             $fbevent = get_post_meta( get_the_ID(), 'derby_fbevent', true ); // Get Facebook event link
 
+            // Check if the game date is in the past
+            $is_past_game = ( strtotime( $date ) < $current_datetime && $atts['show_past'] === 'true' ) ? 'past-game' : '';
+
             if ($atts['view'] == 'reduced') {
-                echo '<div class="tm-derby-game-reduced">';
+                echo '<div class="tm-derby-game-reduced ' . $is_past_game . '">';
                 echo '<h1>' . $date_formatted . ' — ' . $game_name . '</h1>';
-                echo '<p>' . $venue . '&nbsp;&nbsp;|&nbsp;&nbsp;' . $location . '';
-				 // Display ticket link if not empty
-                if ( ! empty( $tickets ) ) {
-                    echo '&nbsp;&nbsp;|&nbsp;&nbsp;<a href="' . esc_url( $tickets ) . '">Buy Tickets!</a></strong>';
-                }
-				echo '</p>';
-				echo '</div>';
+                echo '<p>' . $venue . '&nbsp;&nbsp;|&nbsp;&nbsp;' . $location . '</p>';
+                echo '</div>';
             } else {
                 $time = get_post_meta( get_the_ID(), 'derby_time', true );
                 $time_formatted = date( 'g:i A', strtotime( $time ) ); // Format time as "1:00 PM"
@@ -226,7 +225,7 @@ function tm_derby_schedule_shortcode( $atts ) {
                 $g3_team_1 = get_post_meta( get_the_ID(), 'derby_g3_team_1', true );
                 $g3_team_2 = get_post_meta( get_the_ID(), 'derby_g3_team_2', true );
 
-                echo '<div class="tm-derby-game">';
+                echo '<div class="tm-derby-game ' . $is_past_game . '">';
                 echo '<div class="tm-derby-game-cell-1">';
                 echo '<h1>' . $date_formatted . '</h1>';
                 echo '<h2>' . $time_formatted . '</h2>';
@@ -247,12 +246,12 @@ function tm_derby_schedule_shortcode( $atts ) {
                     echo '<p><strong> ' . $g3_team_1 . '</strong> <span style="font-size: 8px; text-transform:uppercase;">vs</span> <strong>' . $g3_team_2 . '</strong> </p>';
                 }
                 echo '<p>' . $venue . ' | ' . $location . '</p>';
-                // Display ticket link if not empty
-                if ( ! empty( $tickets ) ) {
+                // Display ticket link only if not a past game
+                if ( ! empty( $tickets ) && empty( $is_past_game ) ) {
                     echo '<p style="padding-top:10px;"><strong><a href="' . esc_url( $tickets ) . '">Buy Tickets!</a></strong>';
                 }
-                // Display Facebook event link if not empty
-                if ( ! empty( $fbevent ) ) {
+                // Display Facebook event link only if not a past game
+                if ( ! empty( $fbevent ) && empty( $is_past_game ) ) {
                     echo '&nbsp;&nbsp;|&nbsp;&nbsp;<strong><a href="' . esc_url( $fbevent ) . '"><span class="dashicons dashicons-facebook"></span></a></strong></p>';
                 }
                 echo '</div>';
